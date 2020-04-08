@@ -68,8 +68,7 @@ scalacOptions ++= Seq(
   "-Ywarn-value-discard",
   "-language:higherKinds",
   "-language:postfixOps",
-  "-Ywarn-unused:imports",
-  "-Ypartial-unification"
+  "-Ywarn-unused:imports"
 )
 
 scalacOptions in Test ++= Seq("-Yrangepos")
