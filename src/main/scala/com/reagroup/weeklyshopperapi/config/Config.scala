@@ -2,11 +2,11 @@ package com.reagroup.weeklyshopperapi.config
 
 import com.reagroup.infrastructure.jsonlogger.LogConfig
 import com.reagroup.weeklyshopperapi.errors.{AppTry, ConfigError, ErrorOr}
-import io.circe.Encoder
 import io.circe.generic.semiauto.deriveEncoder
+import io.circe.syntax._
+import io.circe.{Encoder, Json}
 
 object Config {
-  implicit val configEncoder: Encoder[Config] = deriveEncoder[Config]
 
   def fromEnvironment(environment: Environment): ErrorOr[Config] = {
     val environmentVariables = new EnvironmentVariables(environment)
@@ -36,6 +36,11 @@ object Config {
         )
       )
   }
+  implicit val configEncoder: Encoder[Config] = deriveEncoder[Config]
+  implicit private val databaseConfigEncoder: Encoder[DatabaseConfig] = databaseConfig =>
+    Json.obj(
+      "url" -> databaseConfig.url.asJson
+    )
 }
 
 final case class Config(
