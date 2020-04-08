@@ -1,0 +1,22 @@
+out
+*.log
+
+# sbt specific
+dist/*
+target/
+
+## IntelliJ
+*.iml
+.idea
+
+## Mac stuff
+.DS_Store
+
+## Project
+deploy/
+auto/
+newrelic/
+support/
+Dockerfile
+dependencies.dockerfile
+docker-compose.yml
