@@ -13,22 +13,41 @@ object Config {
     for {
       port <- environmentVariables
         .lookup("PORT")
-        .flatMap(portStr => AppTry(portStr.toInt).left.map(_ => ConfigError("PORT", Some(portStr))))
+        .flatMap(portStr =>
+          AppTry(portStr.toInt).left.map(_ =>
+            ConfigError("PORT", Some(portStr))))
       version <- environmentVariables.lookup("VERSION")
       logLevel <- environmentVariables.lookup("LOG_LEVEL")
       appName <- environmentVariables.lookup("APP_NAME")
-    } yield Config(
-      port = port,
-      version = version,
-      appName = appName,
-      logConfig = LogConfig(logLevel, withAccessLog = true)
-    )
+      dbHost <- environmentVariables.lookup("DATABASE_HOST")
+      dbName <- environmentVariables.lookup("DATABASE_NAME")
+      dbUserName <- environmentVariables.lookup("DATABASE_USERNAME")
+      dbPassword <- environmentVariables.lookup("DATABASE_PASSWORD")
+    } yield
+      Config(
+        port = port,
+        version = version,
+        appName = appName,
+        logConfig = LogConfig(logLevel, withAccessLog = true),
+        dbConfig = DatabaseConfig(
+          url = s"jdbc:postgresql://$dbHost/$dbName",
+          userName = dbUserName,
+          password = dbPassword
+        )
+      )
   }
 }
 
 final case class Config(
-  port: Int,
-  version: String,
-  appName: String,
-  logConfig: LogConfig
+    port: Int,
+    version: String,
+    appName: String,
+    logConfig: LogConfig,
+    dbConfig: DatabaseConfig
+)
+
+final case class DatabaseConfig(
+    url: String,
+    userName: String,
+    password: String
 )

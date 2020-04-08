@@ -23,6 +23,7 @@ resolvers ++= Seq(
   "rea nexus release" at "https://rea-sonatype-nexus.services.delivery.realestate.com.au/nexus/content/repositories/releases"
 )
 
+val doobieVersion = "0.8.8"
 val catsVersion = "2.1.1"
 val catsEffectVersion = "2.1.2"
 val circeVersion = "0.13.0"
@@ -34,6 +35,10 @@ val piScalaTestUtil = "1.0.2"
 val newRelicVersion = "5.2.0"
 
 libraryDependencies ++= Seq(
+  "org.tpolecat"            %% "doobie-core"                  % doobieVersion,
+  "org.tpolecat"            %% "doobie-postgres"              % doobieVersion,
+  "org.tpolecat"            %% "doobie-specs2"                % doobieVersion,
+  "org.tpolecat"            %% "doobie-hikari"                % doobieVersion,
   "org.typelevel"           %% "cats-core"                    % catsVersion,
   "org.typelevel"           %% "cats-effect"                  % catsEffectVersion,
   "io.circe"                %% "circe-core"                   % circeVersion,
@@ -63,7 +68,8 @@ scalacOptions ++= Seq(
   "-Ywarn-value-discard",
   "-language:higherKinds",
   "-language:postfixOps",
-  "-Ywarn-unused:imports"
+  "-Ywarn-unused:imports",
+  "-Ypartial-unification"
 )
 
 scalacOptions in Test ++= Seq("-Yrangepos")
