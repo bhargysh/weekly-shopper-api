@@ -17,9 +17,9 @@ class AppRuntime(config: Config, dbTransactor: HikariTransactor[IO])(implicit ec
 
   private val diagnosticRoutes: HttpRoutes[IO] = new ApplicationDiagnosticRoutes(config, diagnosticChecks).routes()
 
-  private val recipesRoutes = RecipesRunTime(dbTransactor).openRoutes
+  private val recipesRoutes = RecipesRunTime(dbTransactor).apply(dbTransactor).openRoutes
 
-  private val appServices = recipesRoutes <+> diagnosticRoutes
+  private val appServices = recipesRoutes.combineK(diagnosticRoutes)
 
   private val allServices: HttpRoutes[IO] = GZip(appServices, isZippable = (_: Response[IO]) => true)
 
