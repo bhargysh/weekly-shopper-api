@@ -11,7 +11,11 @@ class EnvironmentVariables(environment: Environment) {
   private val developmentDefaults: Map[String, String] = deploymentDefaults ++ Map(
     "APP_NAME" -> "weekly-shopper-api-dev",
     "PORT" -> "8080",
-    "VERSION" -> "0.0.1"
+    "VERSION" -> "0.0.1",
+    "DATABASE_HOST" -> "localhost",
+    "DATABASE_NAME" -> "weekly_shopper_db",
+    "DATABASE_USERNAME" -> "postgres",
+    "DATABASE_PASSWORD" -> "password",
   )
 
   private val defaults: Map[Environment, Map[String, String]] = Map(
