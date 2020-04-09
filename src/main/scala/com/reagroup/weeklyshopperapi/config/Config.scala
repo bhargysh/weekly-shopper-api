@@ -37,7 +37,7 @@ object Config {
       )
   }
   implicit val configEncoder: Encoder[Config] = deriveEncoder[Config]
-  implicit private val databaseConfigEncoder: Encoder[DatabaseConfig] = databaseConfig =>
+  implicit val databaseConfigEncoder: Encoder[DatabaseConfig] = databaseConfig =>
     Json.obj(
       "url" -> databaseConfig.url.asJson
     )

@@ -3,7 +3,7 @@ package com.reagroup.weeklyshopperapi.recipes
 import cats.effect.IO
 import doobie.hikari.HikariTransactor
 
-case class RecipesRunTime(dbTransactor: HikariTransactor[IO]) {
+object RecipesRunTime {
 
   def apply(dbTransactor: HikariTransactor[IO]): RecipesRoutes = {
 //    val recipeRepository = new RecipesRepository()
