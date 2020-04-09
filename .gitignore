@@ -17,6 +17,3 @@ deploy/
 auto/
 newrelic/
 support/
-Dockerfile
-dependencies.dockerfile
-docker-compose.yml

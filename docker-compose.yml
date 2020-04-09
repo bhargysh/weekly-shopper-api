@@ -1,0 +1,31 @@
+version: "3"
+
+services:
+  dev:
+    image: 639347700193.dkr.ecr.ap-southeast-2.amazonaws.com/property-insights/weekly-shopper-api-dependencies:latest
+    working_dir: /work
+    command: ./sbt run
+    environment:
+      PORT: 8080
+      APP_NAME: weekly-shopper-api-dev
+    ports:
+      - 8080:8080
+    volumes:
+      - .:/work
+      - coursier-cache:/root/.cache/coursier
+      - sbt-cache:/root/.sbt
+
+  db:
+    image: postgres
+    environment:
+      POSTGRES_DB: weekly_shopper_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5432:5432"
+
+volumes:
+  coursier-cache:
+    external: true
+  sbt-cache:
+    external: true
