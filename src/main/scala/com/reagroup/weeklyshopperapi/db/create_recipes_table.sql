@@ -7,5 +7,6 @@ CREATE TABLE recipes(
     duration INT NOT NULL,
     link VARCHAR,
     image_link VARCHAR,
-    created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW()
+    created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
+    servings INT NOT NULL
 );
