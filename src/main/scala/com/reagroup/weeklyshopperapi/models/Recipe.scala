@@ -9,8 +9,8 @@ case class Recipe(id: RecipeId,
                   ingredients: String, // Vector[Ingredient]
                   instructions: String,
                   duration: Int,
-                  recipeLink: String, // URL
-                  imageLink: String, // URL
+                  recipeLink: Option[String], // URL
+                  imageLink: Option[String], // URL
                   createdAt: Instant,
                   servings: Int)
 
