@@ -3,9 +3,6 @@ package com.reagroup.weeklyshopperapi.recipes
 import cats.effect.IO
 import com.reagroup.weeklyshopperapi.models.Recipe
 
-class RecipesService(ioOfRecipes: IO[Vector[Option[Recipe]]]) {
-  def convertToRecipes(): Vector[Option[Recipe]] =
-    ioOfRecipes.flatMap { recipes =>
-      recipes
-    } // TODO: fix this
+class RecipesService(fetchRecipes: IO[Vector[Recipe]]) {
+  def getRecipes(): IO[Vector[Recipe]] = fetchRecipes
 }
