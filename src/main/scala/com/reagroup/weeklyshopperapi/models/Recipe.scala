@@ -1,6 +1,6 @@
 package com.reagroup.weeklyshopperapi.models
 
-import java.time.Instant
+import java.time.OffsetDateTime
 
 import io.circe.{Encoder, Json}
 import io.circe.syntax._
