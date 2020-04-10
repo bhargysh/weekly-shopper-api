@@ -1,6 +1,8 @@
 package com.reagroup.weeklyshopperapi.models
 
 import doobie.util.meta.Meta
+import io.circe.Encoder
+import io.circe.syntax._
 
 sealed trait RecipeType
 
@@ -27,4 +29,11 @@ object RecipeType {
 
   implicit val recipeTypeMeta: Meta[RecipeType] = Meta[Int]
     .imap(RecipeType.convertFromInt)(RecipeType.convertFromType)
+
+  implicit val encoder: Encoder[RecipeType] = Encoder {
+    case Breakfast => "Breakfast".asJson
+    case Lunch => "Lunch".asJson
+    case Dinner => "Dinner".asJson
+    case Snack => "Snack".asJson
+  }
 }
