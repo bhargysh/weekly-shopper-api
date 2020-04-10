@@ -6,16 +6,16 @@ import io.circe.{Encoder, Json}
 import io.circe.syntax._
 
 final case class Recipe(
-  id: RecipeId,
-  category: RecipeType,
-  name: String,
-  ingredients: String,
-  instructions: String,
-  duration: Int,
-  link: Option[String],
-  imageLink: Option[String],
-  createdAt: OffsetDateTime,
-  servings: Int
+                         id: RecipeId,
+                         category: RecipeCategory,
+                         name: String,
+                         ingredients: String,
+                         instructions: String,
+                         duration: Int,
+                         link: Option[String],
+                         imageLink: Option[String],
+                         createdAt: OffsetDateTime,
+                         servings: Int
 )
 
 object Recipe {
