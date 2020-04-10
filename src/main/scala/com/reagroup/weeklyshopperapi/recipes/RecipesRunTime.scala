@@ -2,19 +2,21 @@ package com.reagroup.weeklyshopperapi.recipes
 
 import cats.effect.IO
 import com.reagroup.weeklyshopperapi.models.Recipe
+import com.reagroup.weeklyshopperapi.recipes.bycategory.{RecipesByCategoryController, RecipesByCategoryRepository}
 import doobie.hikari.HikariTransactor
 
 object RecipesRunTime {
 
   def apply(dbTransactor: HikariTransactor[IO]): RecipesRoutes = {
 
-    val recipeRepository = new RecipesRepository(dbTransactor)
-    val ioOfRecipes: IO[Vector[Recipe]] = recipeRepository.fetchRecipes()
+    val recipesRepository = new RecipesRepository(dbTransactor)
 
-    val recipeService = new RecipesService(ioOfRecipes)
+    val recipeController = new RecipesController(recipesRepository.fetchRecipes())
 
-    val recipeController = new RecipesController(recipeService.getRecipes())
+    val recipesByCategoryRepository = new RecipesByCategoryRepository(dbTransactor)
 
-    new RecipesRoutes(recipeController.handleGetRecipes())
+    val recipesByCategoryController = new RecipesByCategoryController(recipesByCategoryRepository.fetchRecipesByCategory)
+
+    new RecipesRoutes(recipeController.handleGetRecipes(), recipesByCategoryController.recipesByCategoryHandler)
   }
 }
