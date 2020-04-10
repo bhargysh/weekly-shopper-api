@@ -1,8 +1,7 @@
 package com.reagroup.weeklyshopperapi.recipes
 
 import cats.effect.IO
-import com.reagroup.weeklyshopperapi.models.Recipe
-import com.reagroup.weeklyshopperapi.recipes.bycategory.{RecipesByCategoryController, RecipesByCategoryRepository}
+import com.reagroup.weeklyshopperapi.recipes.bycategory._
 import doobie.hikari.HikariTransactor
 
 object RecipesRunTime {

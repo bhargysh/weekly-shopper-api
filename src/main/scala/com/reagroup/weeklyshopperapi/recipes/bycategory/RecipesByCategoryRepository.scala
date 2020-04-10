@@ -19,7 +19,7 @@ object RecipesByCategoryRepository {
   private def fetchRecipesByCategoryQuery(category: RecipeCategory): doobie.Query0[Recipe] = {
     sql"""
       SELECT id, type, name, ingredients, instruction, duration, link, image_link, created_at, servings FROM recipes
-      WHERE type LIKE $category
+      WHERE type=$category
       """
       .query[Recipe]
   }
