@@ -1,7 +1,7 @@
 package com.reagroup.weeklyshopperapi.models
 
 import doobie.util.meta.Meta
-import io.circe.Encoder
+import io.circe.{Decoder, Encoder}
 import io.circe.syntax._
 
 sealed trait RecipeCategory
@@ -13,7 +13,7 @@ case object Snack extends RecipeCategory
 
 object RecipeCategory {
 
-  def convertFromInt(int: Int): RecipeCategory = int match {
+  val convertFromInt: PartialFunction[Int, RecipeCategory] = {
     case 1 => Breakfast
     case 2 => Lunch
     case 3 => Dinner
@@ -36,4 +36,7 @@ object RecipeCategory {
     case Dinner => "Dinner".asJson
     case Snack => "Snack".asJson
   }
+
+  implicit val decoder: Decoder[RecipeCategory] = Decoder
+    .forProduct1("category")(RecipeCategory.convertFromInt)
 }

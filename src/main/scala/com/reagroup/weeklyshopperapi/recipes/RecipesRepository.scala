@@ -17,7 +17,7 @@ class RecipesRepository(dbxa: Transactor[IO]) {
 object RecipesRepository {
   implicit val instantMeta: Meta[OffsetDateTime] = doobie.implicits.javatime.JavaOffsetDateTimeMeta
 
-  private def fetchRecipesQuery(): doobie.Query0[Recipe] = {
+  def fetchRecipesQuery(): doobie.Query0[Recipe] = {
     sql"""
       SELECT id, type, name, ingredients, instruction, duration, link, image_link, created_at, servings FROM recipes
       """

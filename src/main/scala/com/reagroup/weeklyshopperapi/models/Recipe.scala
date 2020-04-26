@@ -14,7 +14,7 @@ final case class Recipe(
                          duration: Int,
                          link: Option[String],
                          imageLink: Option[String],
-                         createdAt: OffsetDateTime,
+                         createdAt: Option[OffsetDateTime],
                          servings: Int
 )
 
