@@ -1,5 +1,6 @@
 package com.reagroup.weeklyshopperapi.models
 
+import java.net.URI
 import java.time.OffsetDateTime
 
 import io.circe.{Encoder, Json}
@@ -9,11 +10,11 @@ final case class Recipe(
                          id: RecipeId,
                          category: RecipeCategory,
                          name: String,
-                         ingredients: String,
-                         instructions: String,
+                         ingredients: List[Ingredient],
+                         instructions: List[Instruction],
                          duration: Int,
-                         link: Option[String],
-                         imageLink: Option[String],
+                         link: Option[URI],
+                         imageLink: Option[URI],
                          createdAt: Option[OffsetDateTime],
                          servings: Int
 )
@@ -32,4 +33,6 @@ object Recipe {
       "createdAt" -> recipe.createdAt.asJson,
       "servings" -> recipe.servings.asJson
     )
+
+  implicit val uriEncoder: Encoder[URI] = Encoder.encodeString.contramap[URI](_.toString)
 }
