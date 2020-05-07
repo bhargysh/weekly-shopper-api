@@ -1,8 +1,8 @@
 package com.reagroup.weeklyshopperapi.models
 
-import java.net.URI
 import java.time.OffsetDateTime
 
+import doobie.util.meta.Meta
 import io.circe.{Encoder, Json}
 import io.circe.syntax._
 
@@ -13,8 +13,8 @@ final case class Recipe(
                          ingredients: List[Ingredient],
                          instructions: List[Instruction],
                          duration: Int,
-                         link: Option[URI],
-                         imageLink: Option[URI],
+                         link: Option[String],
+                         imageLink: Option[String],
                          createdAt: Option[OffsetDateTime],
                          servings: Int
 )
@@ -33,6 +33,6 @@ object Recipe {
       "createdAt" -> recipe.createdAt.asJson,
       "servings" -> recipe.servings.asJson
     )
-
-  implicit val uriEncoder: Encoder[URI] = Encoder.encodeString.contramap[URI](_.toString)
+  implicit val instantMeta: Meta[OffsetDateTime] = doobie.implicits.javatime.JavaOffsetDateTimeMeta
+//  implicit val uriEncoder: Encoder[URI] = Encoder.encodeString.contramap[URI](_.toString)
 }
