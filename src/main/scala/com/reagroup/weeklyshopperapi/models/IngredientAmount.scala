@@ -3,7 +3,7 @@ package com.reagroup.weeklyshopperapi.models
 import doobie.util.meta.Meta
 import io.circe.{Decoder, Encoder}
 
-case class IngredientAmount(value: Float)
+final case class IngredientAmount(value: Float) extends AnyVal
 
 object IngredientAmount {
   implicit val ingredientAmountEncoder: Encoder[IngredientAmount] = Encoder.encodeFloat.contramap(_.value)
