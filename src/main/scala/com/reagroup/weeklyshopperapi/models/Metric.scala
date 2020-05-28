@@ -4,8 +4,7 @@ import doobie.util.meta.Meta
 import io.circe.{Encoder, Json}
 import io.circe.syntax._
 
-
-sealed trait Metric
+sealed trait Metric extends Product with Serializable
 
 case object Grams extends Metric
 case object Kilograms extends Metric
@@ -18,8 +17,9 @@ case object TeaSpoon extends Metric
 object Metric {
   implicit val encoder: Encoder[Metric] = (m: Metric) => metricToJson(m)
 
-  implicit val metricMeta: Meta[Metric] = Meta[String]
-    .imap(Metric.convertFromString)(Metric.convertFromMetric)
+  implicit val metricMeta: Meta[Metric] = {
+    Meta[String].imap(validStr => Metric.convertFromString(validStr))(metric => Metric.convertFromMetric(metric))
+  }
 
   private def metricToJson(m: Metric): Json = m match {
     case Grams => "g".asJson
