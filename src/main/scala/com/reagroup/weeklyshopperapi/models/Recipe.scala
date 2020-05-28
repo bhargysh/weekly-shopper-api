@@ -1,5 +1,7 @@
 package com.reagroup.weeklyshopperapi.models
 
+//import java.time.OffsetDateTime
+
 import io.circe.{Encoder, Json}
 import io.circe.syntax._
 
@@ -7,8 +9,8 @@ final case class Recipe(
                          id: RecipeId,
                          category: RecipeCategory,
                          name: String,
-                         ingredients: List[Ingredient],
-//                         instructions: List[Instruction],
+                         ingredients: Vector[Ingredient],
+//                         instructions: Vector[Instruction],
 //                         duration: Int,
 //                         link: Option[String],
 //                         imageLink: Option[String],
