@@ -3,7 +3,7 @@ package com.reagroup.weeklyshopperapi.models
 import doobie.util.meta.Meta
 import io.circe.{Decoder, Encoder}
 
-case class RecipeCookTime(value: Int)
+final case class RecipeCookTime(value: Int)
 
 object RecipeCookTime {
   implicit val cookTimeEncoder: Encoder[RecipeCookTime] = Encoder.encodeInt.contramap(_.value)

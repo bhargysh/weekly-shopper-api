@@ -3,7 +3,7 @@ package com.reagroup.weeklyshopperapi.models
 import doobie.util.meta.Meta
 import io.circe.{Decoder, Encoder}
 
-case class Servings(value: Int)
+final case class Servings(value: Int)
 
 object Servings {
   implicit val servingsEncoder: Encoder[Servings] = Encoder.encodeInt.contramap(_.value)

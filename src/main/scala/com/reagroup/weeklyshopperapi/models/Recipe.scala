@@ -35,6 +35,7 @@ object Recipe {
       "servings" -> recipe.servings.asJson
     )
 
+  @SuppressWarnings(Array("org.wartremover.warts.Throw"))
   implicit val circeJsonMeta: Meta[Json] =
     Meta[String].imap(strJson => parser.parse(strJson).fold[Json](throw _, identity))(_.noSpaces)
 
