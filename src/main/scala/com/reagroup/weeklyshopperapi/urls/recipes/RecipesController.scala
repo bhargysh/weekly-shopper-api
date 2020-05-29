@@ -1,10 +1,11 @@
-package com.reagroup.weeklyshopperapi.recipes
+package com.reagroup.weeklyshopperapi.urls.recipes
 
 import cats.effect.IO
 import com.reagroup.weeklyshopperapi.models.Recipe
-import org.http4s.{EntityEncoder, Response}
+import com.reagroup.weeklyshopperapi.urls.ErrorHandler
 import org.http4s.circe._
 import org.http4s.dsl.io._
+import org.http4s.{EntityEncoder, Response}
 
 class RecipesController(getRecipes: IO[Vector[Recipe]]) {
 

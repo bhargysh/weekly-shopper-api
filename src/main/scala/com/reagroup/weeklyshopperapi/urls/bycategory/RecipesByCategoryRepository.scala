@@ -1,4 +1,4 @@
-package com.reagroup.weeklyshopperapi.recipes.bycategory
+package com.reagroup.weeklyshopperapi.urls.bycategory
 
 import java.time.OffsetDateTime
 

@@ -1,10 +1,9 @@
-package com.reagroup.weeklyshopperapi.recipes
-
+package com.reagroup.weeklyshopperapi.urls.recipes
 
 import cats.effect.IO
 import com.reagroup.weeklyshopperapi.models.Recipe
-import doobie.util.transactor.Transactor
 import doobie.implicits._
+import doobie.util.transactor.Transactor
 
 class RecipesRepository(dbxa: Transactor[IO]) {
   def fetchRecipes(): IO[Vector[Recipe]] = {

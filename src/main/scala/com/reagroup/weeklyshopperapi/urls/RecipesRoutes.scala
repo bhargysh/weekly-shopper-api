@@ -1,10 +1,10 @@
-package com.reagroup.weeklyshopperapi.recipes
+package com.reagroup.weeklyshopperapi.urls
 
 import cats.effect.IO
 import com.reagroup.weeklyshopperapi.models.RecipeCategory
-import com.reagroup.weeklyshopperapi.recipes.RecipesRoutes.RecipeCategoryQueryParamMatcher
+import com.reagroup.weeklyshopperapi.urls.RecipesRoutes.RecipeCategoryQueryParamMatcher
 import org.http4s.dsl.io._
-import org.http4s.{HttpRoutes, ParseFailure, QueryParamDecoder, QueryParameterValue, Response}
+import org.http4s.{HttpRoutes, ParseFailure, QueryParamDecoder, QueryParameterValue, Request, Response}
 import cats.implicits._
 import cats.data.{Validated, ValidatedNel}
 
@@ -12,7 +12,7 @@ import scala.util.{Failure, Success, Try}
 
 class RecipesRoutes(recipesHandler: IO[Response[IO]],
                     recipesByCategoryHandler: RecipeCategory => IO[Response[IO]],
-//                    saveRecipeHandler: Request[IO] => IO[Response[IO]]
+                    saveRecipeHandler: Request[IO] => IO[Response[IO]]
                    ) {
   private val RecipesRoute = Root / "recipes"
 
@@ -20,7 +20,7 @@ class RecipesRoutes(recipesHandler: IO[Response[IO]],
     case GET -> RecipesRoute => recipesHandler
     case GET -> RecipesRoute / "by-category" :? RecipeCategoryQueryParamMatcher(category) =>
       handleRecipesByCategoryRequest(category)
-//    case req @ POST -> RecipesRoute => saveRecipeHandler(req)
+    case req @ POST -> RecipesRoute => saveRecipeHandler(req)
   }
 
   private def handleRecipesByCategoryRequest(

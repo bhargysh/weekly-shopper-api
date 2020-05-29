@@ -4,7 +4,7 @@ import doobie.util.meta.Meta
 import io.circe.{Decoder, Encoder}
 import io.circe.syntax._
 
-sealed trait RecipeCategory
+sealed trait RecipeCategory extends Product with Serializable
 
 case object Breakfast extends RecipeCategory
 case object Lunch extends RecipeCategory

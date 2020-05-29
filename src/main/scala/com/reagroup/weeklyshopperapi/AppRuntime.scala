@@ -5,7 +5,7 @@ import cats.implicits._
 import com.reagroup.infrastructure.http4s.logging.LoggingMiddleware
 import com.reagroup.infrastructure.http4s.middleware.{ErrorHandlingMiddleware, TransactionIdMiddleware}
 import com.reagroup.weeklyshopperapi.config.Config
-import com.reagroup.weeklyshopperapi.recipes.RecipesRunTime
+import com.reagroup.weeklyshopperapi.urls.RecipesRunTime
 import doobie.hikari.HikariTransactor
 import org.http4s.server.middleware.GZip
 import org.http4s.{HttpRoutes, Response}

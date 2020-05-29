@@ -1,4 +1,4 @@
-package com.reagroup.weeklyshopperapi.recipes
+package com.reagroup.weeklyshopperapi.urls
 
 import cats.effect.IO
 import com.reagroup.weeklyshopperapi.errors.{AppError, ConfigError, DatabaseError}

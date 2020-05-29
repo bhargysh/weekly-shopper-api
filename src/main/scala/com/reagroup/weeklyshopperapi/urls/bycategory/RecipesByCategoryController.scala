@@ -1,8 +1,8 @@
-package com.reagroup.weeklyshopperapi.recipes.bycategory
+package com.reagroup.weeklyshopperapi.urls.bycategory
 
 import cats.effect.IO
 import com.reagroup.weeklyshopperapi.models.{Recipe, RecipeCategory}
-import com.reagroup.weeklyshopperapi.recipes.ErrorHandler
+import com.reagroup.weeklyshopperapi.urls.ErrorHandler
 import org.http4s.{EntityEncoder, Response}
 import org.http4s.circe._
 import org.http4s.dsl.io._

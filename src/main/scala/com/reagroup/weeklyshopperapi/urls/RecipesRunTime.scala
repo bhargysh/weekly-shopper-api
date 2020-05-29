@@ -1,7 +1,8 @@
-package com.reagroup.weeklyshopperapi.recipes
+package com.reagroup.weeklyshopperapi.urls
 
 import cats.effect.IO
-import com.reagroup.weeklyshopperapi.recipes.bycategory._
+import com.reagroup.weeklyshopperapi.urls.bycategory._
+import com.reagroup.weeklyshopperapi.urls.recipes.{RecipesController, RecipesRepository}
 import doobie.hikari.HikariTransactor
 
 object RecipesRunTime {
@@ -16,6 +17,6 @@ object RecipesRunTime {
 
     val recipesByCategoryController = new RecipesByCategoryController(recipesByCategoryRepository.fetchRecipes)
 
-    new RecipesRoutes(recipeController.fetchAll(), recipesByCategoryController.fetchRecipes)
+    new RecipesRoutes(recipeController.fetchAll(), recipesByCategoryController.fetchRecipes, ???)
   }
 }
