@@ -2,24 +2,44 @@ package com.reagroup.weeklyshopperapi.urls.saverecipe
 
 import cats.data.ValidatedNel
 import cats.implicits._
-import com.reagroup.weeklyshopperapi.models.{
-  Ingredients, Instructions, RecipeCategory, RecipeCookTime, RecipeImageLink, RecipeLink, RecipeName, Servings
-}
+import com.reagroup.weeklyshopperapi.models.{Ingredients, Instructions, RecipeCategory, RecipeCookTime, RecipeImageLink, RecipeLink, RecipeName, Servings}
 
 object NewRecipeValidator {
 
-  def validate(newRecipeRequest: NewRecipeRequest): ValidatedNel[RecipeValidationError, ValidatedRecipe] = {
+  type ErrorOrValid[A] = ValidatedNel[RecipeValidationError, A]
+
+  def validate(newRecipeRequest: NewRecipeRequest): ErrorOrValid[ValidatedRecipe] = {
+      val validatedCategory: ErrorOrValid[RecipeCategory] =
+        validateRecipeCategory(newRecipeRequest.category)
+      val validatedName = validateRecipeName(newRecipeRequest.name)
+      val validatedIngredients = validateRecipeIngredients(newRecipeRequest.ingredients)
+      val validatedInstructions = validateRecipeInstructions(newRecipeRequest.instructions)
+      val validatedDuration = validateRecipeDuration(newRecipeRequest.duration)
+      val validatedRecipeLink = validateRecipeLink(newRecipeRequest.link.getOrElse(""))
+      val validatedRecipeImageLink = validateRecipeImageLink(newRecipeRequest.imageLink.getOrElse(""))
+      val validatedCreatedAt = validateCreatedAt(newRecipeRequest.createdAt.getOrElse(""))
+      val validatedServing = validateRecipeServing(newRecipeRequest.servings)
+
     (
-      validateRecipeCategory(newRecipeRequest.category),
-      validateRecipeName(newRecipeRequest.name),
-      validateRecipeIngredients(newRecipeRequest.ingredients),
-      validateRecipeInstructions(newRecipeRequest.instructions),
-      validateRecipeDuration(newRecipeRequest.duration),
-      validateRecipeLink(newRecipeRequest.link.getOrElse("")),
-      validateRecipeImageLink(newRecipeRequest.imageLink.getOrElse("")),
-      validateCreatedAt(newRecipeRequest.createdAt.getOrElse("now()")),
-      validateRecipeServing(newRecipeRequest.servings)
-    ).mapN(ValidatedRecipe)
+      validatedCategory,
+      validatedName,
+      validatedIngredients,
+      validatedInstructions,
+      validatedDuration,
+      validatedRecipeLink,
+      validatedRecipeImageLink,
+      validatedCreatedAt,
+      validatedServing
+    )
+      .mapN(ValidatedRecipe(validatedCategory,
+      validatedName,
+      validatedIngredients,
+      validatedInstructions,
+      validatedDuration,
+      validatedRecipeLink,
+      validatedRecipeImageLink,
+      validatedCreatedAt,
+      validatedServing))
   }
 
   private def validateRecipeCategory(category: Int): ValidatedNel[RecipeValidationError, RecipeCategory] =
