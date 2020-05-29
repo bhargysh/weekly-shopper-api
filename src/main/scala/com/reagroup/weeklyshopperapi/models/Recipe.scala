@@ -1,21 +1,23 @@
 package com.reagroup.weeklyshopperapi.models
 
-//import java.time.OffsetDateTime
+import java.time.OffsetDateTime
 
-import io.circe.{Encoder, Json}
+import doobie.util.{Read, Write}
+import doobie.util.meta.Meta
+import io.circe.{parser, Encoder, Json}
 import io.circe.syntax._
 
 final case class Recipe(
-                         id: RecipeId,
-                         category: RecipeCategory,
-                         name: String,
-                         ingredients: Vector[Ingredient],
-//                         instructions: Vector[Instruction],
-//                         duration: Int,
-//                         link: Option[String],
-//                         imageLink: Option[String],
-//                         createdAt: Option[OffsetDateTime],
-//                         servings: Int
+  id: RecipeId,
+  category: RecipeCategory,
+  name: RecipeName,
+  ingredients: Json,
+  instructions: Json,
+  duration: RecipeCookTime,
+  link: Option[RecipeLink],
+  imageLink: Option[RecipeImageLink],
+  createdAt: Option[OffsetDateTime],
+  servings: Servings
 )
 
 object Recipe {
@@ -25,12 +27,66 @@ object Recipe {
       "category" -> recipe.category.asJson,
       "name" -> recipe.name.asJson,
       "ingredients" -> recipe.ingredients.asJson,
-//      "instructions" -> recipe.instructions.asJson,
-//      "duration" -> recipe.duration.asJson,
-//      "link" -> recipe.link.asJson,
-//      "imageLink" -> recipe.imageLink.asJson,
-//      "createdAt" -> recipe.createdAt.asJson,
-//      "servings" -> recipe.servings.asJson
+      "instructions" -> recipe.instructions.asJson,
+      "duration" -> recipe.duration.asJson,
+      "link" -> recipe.link.asJson,
+      "imageLink" -> recipe.imageLink.asJson,
+      "createdAt" -> recipe.createdAt.asJson,
+      "servings" -> recipe.servings.asJson
     )
-//  implicit val instantMeta: Meta[OffsetDateTime] = doobie.implicits.javatime.JavaOffsetDateTimeMeta
+
+  implicit val circeJsonMeta: Meta[Json] =
+    Meta[String].imap(strJson => parser.parse(strJson).fold[Json](throw _, identity))(_.noSpaces)
+
+  implicit val instantMeta: Meta[OffsetDateTime] = doobie.implicits.javatime.JavaOffsetDateTimeMeta
+
+  implicit val propertyAttributesQueryRowRead: Read[Recipe] = {
+    Read[
+      (
+        RecipeId,
+        RecipeCategory,
+        RecipeName,
+        Json,
+        Json,
+        RecipeCookTime,
+        Option[RecipeLink],
+        Option[RecipeImageLink],
+        Option[OffsetDateTime],
+        Servings
+      )
+    ].map {
+      case (id, category, name, ingredients, instructions, duration, link, imageLink, createdAt, servings) =>
+        Recipe(id, category, name, ingredients, instructions, duration, link, imageLink, createdAt, servings)
+    }
+  }
+
+  implicit val propertyAttributesQueryRowWrite: Write[Recipe] = {
+    Write[
+      (
+        RecipeId,
+        RecipeCategory,
+        RecipeName,
+        Json,
+        Json,
+        RecipeCookTime,
+        Option[RecipeLink],
+        Option[RecipeImageLink],
+        Option[OffsetDateTime],
+        Servings
+      )
+    ].contramap { recipe =>
+      (
+        recipe.id,
+        recipe.category,
+        recipe.name,
+        recipe.ingredients,
+        recipe.instructions,
+        recipe.duration,
+        recipe.link,
+        recipe.imageLink,
+        recipe.createdAt,
+        recipe.servings
+      )
+    }
+  }
 }
