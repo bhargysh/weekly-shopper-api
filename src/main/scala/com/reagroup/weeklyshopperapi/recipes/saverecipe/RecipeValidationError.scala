@@ -1,9 +1,0 @@
-package com.reagroup.weeklyshopperapi.recipes.saverecipe
-
-sealed trait RecipeValidationError
-
-case object FieldIsRequired extends RecipeValidationError
-
-case object CategoryIsInvalid extends RecipeValidationError
-
-case object RecipeInstructionsTooShort extends RecipeValidationError
