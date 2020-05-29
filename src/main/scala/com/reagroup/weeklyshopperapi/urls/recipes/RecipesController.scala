@@ -11,7 +11,7 @@ class RecipesController(getRecipes: IO[Vector[Recipe]]) {
 
   implicit private val recipesResponseEE: EntityEncoder[IO, Vector[Recipe]] = jsonEncoderOf[IO, Vector[Recipe]]
 
-  def fetchAll(): IO[Response[IO]] =
+  def fetchAll: IO[Response[IO]] =
     for {
       errorOrRecipes <- getRecipes.attempt
       response <- errorOrRecipes match {

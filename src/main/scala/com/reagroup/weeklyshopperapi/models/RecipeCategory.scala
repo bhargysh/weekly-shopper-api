@@ -27,6 +27,13 @@ object RecipeCategory {
     case Snack => 4
   }
 
+  val isValid: PartialFunction[Int, Boolean] = {
+    case 1 => true
+    case 2 => true
+    case 3 => true
+    case 4 => true
+  }
+
   implicit val recipeTypeMeta: Meta[RecipeCategory] = Meta[Int]
     .imap(RecipeCategory.convertFromInt)(RecipeCategory.convertFromType)
 

@@ -1,6 +1,6 @@
 package com.reagroup.weeklyshopperapi.errors
 
-sealed trait AppError
+sealed trait AppError extends Throwable
 
 final case class ConfigError(configEntry: String, configValue: Option[String]) extends AppError
 final case class DatabaseError(message: String) extends AppError
@@ -8,12 +8,11 @@ final case class DatabaseError(message: String) extends AppError
 object AppError {
 
   import cats.Show
-  import cats.syntax.show._
   import io.circe._
   import io.circe.generic.semiauto._
   import io.circe.syntax._
 
-  def toThrowable(appError: AppError): Throwable = new RuntimeException(appError.show)
+//  def toThrowable(appError: AppError): Throwable = new RuntimeException(appError.show)
 
   implicit val showAppError: Show[AppError] = _.asJson.noSpaces
 
