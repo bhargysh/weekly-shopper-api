@@ -14,8 +14,8 @@ object RecipesRunTime {
 
     val recipesByCategoryRepository = new RecipesByCategoryRepository(dbTransactor)
 
-    val recipesByCategoryController = new RecipesByCategoryController(recipesByCategoryRepository.fetchRecipesByCategory)
+    val recipesByCategoryController = new RecipesByCategoryController(recipesByCategoryRepository.fetchRecipes)
 
-    new RecipesRoutes(recipeController.fetchAll(), recipesByCategoryController.recipesByCategoryHandler)
+    new RecipesRoutes(recipeController.fetchAll(), recipesByCategoryController.fetchRecipes)
   }
 }

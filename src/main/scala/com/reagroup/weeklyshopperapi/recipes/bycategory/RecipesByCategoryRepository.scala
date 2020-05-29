@@ -9,7 +9,7 @@ import doobie.implicits._
 import doobie.util.meta.Meta
 
 class RecipesByCategoryRepository(dbxa: Transactor[IO]) {
-  def fetchRecipesByCategory(category: RecipeCategory): IO[Vector[Recipe]] =
+  def fetchRecipes(category: RecipeCategory): IO[Vector[Recipe]] =
     RecipesByCategoryRepository.fetchRecipesByCategoryQuery(category).to[Vector].transact(dbxa)
 }
 
