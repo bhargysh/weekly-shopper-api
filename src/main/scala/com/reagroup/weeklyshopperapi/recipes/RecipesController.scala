@@ -10,10 +10,13 @@ class RecipesController(getRecipes: IO[Vector[Recipe]]) {
 
   implicit private val recipesResponseEE: EntityEncoder[IO, Vector[Recipe]] = jsonEncoderOf[IO, Vector[Recipe]]
 
-  def handleGetRecipes(): IO[Response[IO]] = {
-    getRecipes.flatMap { recipes =>
-      Ok(recipes)
-    }
-  }
+  def fetchAll(): IO[Response[IO]] =
+    for {
+      errorOrRecipes <- getRecipes.attempt
+      response <- errorOrRecipes match {
+        case Left(e) => ErrorHandler(e)
+        case Right(recipes) => Ok(recipes)
+      }
+    } yield response
 
 }

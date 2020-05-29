@@ -1,10 +1,9 @@
 package com.reagroup.weeklyshopperapi.errors
 
-import io.circe.Json
-
 sealed trait AppError
 
 final case class ConfigError(configEntry: String, configValue: Option[String]) extends AppError
+final case class DatabaseError(message: String) extends AppError
 
 object AppError {
 
@@ -20,9 +19,11 @@ object AppError {
 
   implicit val appErrorEncoder: Encoder[AppError] = {
     case error @ ConfigError(_, _) => encodeWithMessage("Invalid or missing configuration entry", error)
+    case error @ DatabaseError(_) => encodeWithMessage("Invalid database query", error)
   }
 
   implicit private val configErrorEncoder: Encoder[ConfigError] = deriveEncoder[ConfigError]
+  implicit private val dbErrorEncoder: Encoder[DatabaseError] = deriveEncoder[DatabaseError]
 
   private def encodeWithMessage[A](message: String, a: A)(implicit encoder: Encoder[A]): Json = {
     Json.obj("message" -> message.asJson, "errorDetail" -> encoder(a))
